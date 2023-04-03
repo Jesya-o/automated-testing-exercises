@@ -1,92 +1,79 @@
-# TDD Kata
+# Assignment 1: TDD Kata
 
+## Introduction
 
+This is a **graded exercise** for learning TDD by practicing using [code kata](http://vinaikopp.com/2016/02/09/about_code_katas/).  
 
-## Getting started
+The idea behind TDD kata is simple: 
+> We are going to work on a single functionality, but we will increase the complexity bit by bit while adding new tests in a TDD manner.  
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+### Administrative info  
+- **Deadline:** end of week 16 of semester (sunday 23:59).
+- **Mark:** You can get a total of **25 points** for this exercise, 5 per requirement.
+- **Weapon of choice:** Choose the programming language or framework that you like.
+- The first 3 requirements are not marked... a warm-up, so to speak. 
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### Using the starter project
 
-## Add your files
+Prerequisites:
+- JDK 17
+- Git
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
+Go into the ```tdd-kata``` directory and execute gradle build
+```bash
+./gradlew build
 ```
-cd existing_repo
-git remote add origin https://gitlab.cs.ttu.ee/ksokun/tdd-kata.git
-git branch -M main
-git push -uf origin main
+
+Check that tests are working
+```bash
+./gradlew test
 ```
 
-## Integrate with your tools
+Delete dummy classes App.java and AppTest.java.
 
-- [ ] [Set up project integrations](https://gitlab.cs.ttu.ee/ksokun/tdd-kata/-/settings/integrations)
+Write your own classes and implementation
 
-## Collaborate with your team
+## Code Kata: Greeting
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+### Requirement 1
+Write a method ```greet(name)``` that interpolates ```name``` into a simple greeting. For example, when 
+```name``` is ```"Bob"```, the method should return a string ```"Hello, Bob."```.
 
-## Test and Deploy
+### Requirement 2
+Handle empty or missing input by introducing a stand-in. For example, when ```name``` is null, then the method 
+should return the string ```"Hello, my friend."```.  
 
-Use the built-in continuous integration in GitLab.
+In case of multiple empty/null/etc inputs it should greet all the friends: ```"Hello, my friends."```.  
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+**NB!** This requirement should work with the later requirements as well. Example:  
+```"Hello, Amy, Charlotte, and my friends. AND HELLO, BRIAN!"```
 
-***
+### Requirement 3
+Handle shouting. When ```name``` is all uppercase, then the method should shout back to the user. 
+For example, when ```name``` is ```"JERRY"``` then the method should return the string ```"HELLO, JERRY!"```.
 
-# Editing this README
+### Requirement 4
+Handle two names of input. When ```name``` is an array of two names (or, in languages that support 
+it, varargs or a splat), then both names should be printed. For example, when ```name``` is 
+```["Jill", "Jane"]```, then the method should return the string ```"Hello, Jill and Jane."```.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### Requirement 5
+Handle an arbitrary number of names as input. When ```name``` represents more than two names, 
+separate them with commas and close with an Oxford comma and "and". For example, when ```name``` 
+is ```["Amy", "Brian", "Charlotte"]```, then the method should return the string ```"Hello, Amy, Brian, and Charlotte."```
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+### Requirement 6
+Allow mixing of normal and shouted names by separating the response into two greetings. 
+For example, when ```name``` is ```["Amy", "BRIAN", "Charlotte"]```, then the method should return 
+the string ```"Hello, Amy and Charlotte. AND HELLO, BRIAN!"```.
 
-## Name
-Choose a self-explaining name for your project.
+### Requirement 7
+If any entries in ```name``` are a string containing a comma, split it as its own input. For 
+example, when ```name``` is ```["Bob", "Charlie, Dianne"]```, then the method should return the 
+string ```"Hello, Bob, Charlie, and Dianne."```.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### Requirement 8
+Allow the input to escape intentional commas introduced by Requirement 7. These can 
+be escaped in the same manner that CSV is, with double quotes surrounding the entry. 
+For example, when ```name``` is ```["Bob", "\"Charlie, Dianne\""]```, then the method should return 
+the string ```"Hello, Bob and Charlie, Dianne."```.
