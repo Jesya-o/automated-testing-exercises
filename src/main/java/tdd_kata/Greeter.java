@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Greeter {
-    private static final String STAND_IN = "my friend";
-    private static final String STAND_IN_MULTIPLE = "my friends";
+    public static final String STAND_IN = "my friend";
+    public static final String STAND_IN_MULTIPLE = "my friends";
+    public static final String EMPTY = "";
+    public static final String BASIC_GREETING = "Hello, %s.";
+
 
     public String greet(String... names) {
         if (names == null || names.length == 0) {
-            return String.format("Hello, %s.", STAND_IN);
+            return String.format(BASIC_GREETING, STAND_IN);
         }
 
         List<String> normalNames = new ArrayList<>();
@@ -33,11 +36,18 @@ public class Greeter {
             }
         }
 
-        String greeting = "";
+        String greeting = EMPTY;
 
         if (!normalNames.isEmpty()) {
             if (normalNames.size() == 1) {
                 greeting += normalNames.get(0);
+                if (thereAreNullNames) {
+                    if (thereAreMultipleNullNames) {
+                        greeting += " and " + STAND_IN_MULTIPLE;
+                    } else {
+                        greeting += " and " + STAND_IN;
+                    }
+                }
             } else {
                 greeting += normalNames.subList(0, normalNames.size() - 1)
                         .stream()
@@ -55,28 +65,41 @@ public class Greeter {
             }
 
             if (!shoutingNames.isEmpty()) {
-                greeting += " and " + shoutingNames.stream()
-                        .map(name -> name.toUpperCase())
-                        .collect(Collectors.joining(", "));
-                greeting = greeting.toUpperCase();
+                if (shoutingNames.size() == 1) {
+                    greeting += ". AND HELLO, " + shoutingNames.get(0) + "!";
+                } else {
+                    greeting += ". AND HELLO, " + shoutingNames.subList(0, shoutingNames.size() - 1)
+                            .stream()
+                            .map(name -> name.toUpperCase())
+                            .collect(Collectors.joining(", "));
+                    greeting += " AND " + shoutingNames.get(shoutingNames.size() - 1);
+                    greeting += "!";
+                }
             }
         } else if (!shoutingNames.isEmpty()){
             if (shoutingNames.size() == 1) {
                 greeting += shoutingNames.get(0) + "!";
+                if (thereAreNullNames) {
+                    if (thereAreMultipleNullNames) {
+                        greeting = "Hello, " + STAND_IN_MULTIPLE + ". AND HELLO, " + greeting;
+                    } else {
+                        greeting = "Hello, " + STAND_IN + ". AND HELLO, " + greeting;
+                    }
+                }
             } else {
                 greeting = shoutingNames.subList(0, shoutingNames.size() - 1)
                         .stream()
                         .map(name -> name.toUpperCase())
                         .collect(Collectors.joining(", "));
                 if (thereAreNullNames) {
-                    greeting += ", " + shoutingNames.get(shoutingNames.size() - 1);
+                    greeting += " AND " + shoutingNames.get(shoutingNames.size() - 1);
                     if (thereAreMultipleNullNames) {
-                        greeting += " and " + STAND_IN_MULTIPLE;
+                        greeting = "Hello, " + STAND_IN_MULTIPLE + ". AND HELLO, " + greeting + "!";
                     } else {
-                        greeting += " and " + STAND_IN;
+                        greeting = "Hello, " + STAND_IN + ". AND HELLO, " + greeting + "!";
                     }
                 } else {
-                    greeting += " and " + shoutingNames.get(shoutingNames.size() - 1) + "!";
+                    greeting += " AND " + shoutingNames.get(shoutingNames.size() - 1) + "!";
                 }
             }
         } else if (thereAreNullNames) {
@@ -88,9 +111,15 @@ public class Greeter {
         }
 
         if (greeting.endsWith("!")) {
-            return String.format("HELLO, %s", greeting);
+            if (thereAreNullNames && normalNames.isEmpty()) {
+                return String.format(greeting);
+            }
+            if (normalNames.isEmpty()) {
+                return String.format("HELLO, %s", greeting);
+            }
+            return String.format("Hello, %s", greeting);
         } else {
-            return String.format("Hello, %s.", greeting);
+            return String.format(BASIC_GREETING, greeting);
         }
     }
 
