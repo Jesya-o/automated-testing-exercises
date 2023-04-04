@@ -9,19 +9,149 @@ public class Greeter {
     public static final String STAND_IN_MULTIPLE = "my friends";
     public static final String EMPTY = "";
     public static final String BASIC_GREETING = "Hello, %s.";
+    public static final String LOWERCASE_LAST_DELIMITER = " and ";
+    public static final String UPPERCASE_LAST_DELIMITER = " AND ";
+    public static final String REGULAR_DELIMITER = ", ";
+    public static final String UPPERCASE_NEW_GREETING = ". AND HELLO, ";
+    public static final String LOWERCASE_GREETING_STARTER = "Hello, ";
+    public static final String UPPERCASE_GREETING_STARTER = "HELLO, ";
 
+    public static final String SHOUTING_GREETING_END = "!";
+
+    boolean thereAreNullNames = false;
+    boolean thereAreMultipleNullNames = false;
+
+    List<String> regularNames = new ArrayList<>();
+    List<String> uppercaseNames = new ArrayList<>();
 
     public String greet(String... names) {
         if (names == null || names.length == 0) {
-            return String.format(BASIC_GREETING, STAND_IN);
+            return handleNullInput();
         }
 
-        List<String> normalNames = new ArrayList<>();
-        List<String> shoutingNames = new ArrayList<>();
+        analiseGivenNames(names);
+        return generateGreeting().toString();
+    }
 
-        boolean thereAreNullNames = false;
-        boolean thereAreMultipleNullNames = false;
+    private String handleNullInput() {
+        return String.format(BASIC_GREETING, STAND_IN);
+    }
+    private StringBuilder generateGreeting() {
+        StringBuilder greeting = new StringBuilder();
 
+        if (!regularNames.isEmpty() && !uppercaseNames.isEmpty()) {
+            greeting = makeLowercaseGreeting(greeting);
+            greeting = addUppercaseGreeting(greeting);
+
+            return new StringBuilder(LOWERCASE_GREETING_STARTER + greeting);
+        }
+        if (!regularNames.isEmpty()) {
+            greeting = makeLowercaseGreeting(greeting);
+            return new StringBuilder(String.format(BASIC_GREETING, greeting));
+        }
+        if (!uppercaseNames.isEmpty()) {
+            if (thereAreNullNames) {
+                if (uppercaseNames.size() == 1) {
+                    greeting.append(uppercaseNames.get(0)).append(SHOUTING_GREETING_END);
+                    if (thereAreMultipleNullNames) {
+                        greeting = new StringBuilder(LOWERCASE_GREETING_STARTER + STAND_IN_MULTIPLE + UPPERCASE_NEW_GREETING + greeting);
+                    } else {
+                        greeting = new StringBuilder(LOWERCASE_GREETING_STARTER + STAND_IN + UPPERCASE_NEW_GREETING + greeting);
+                    }
+                } else {
+                    greeting = new StringBuilder(
+                            uppercaseNames.subList(0, uppercaseNames.size() - 1)
+                            .stream()
+                            .map(String::toUpperCase)
+                            .collect(Collectors.joining(REGULAR_DELIMITER))
+                    );
+                    greeting.append(UPPERCASE_LAST_DELIMITER).append(uppercaseNames.get(uppercaseNames.size() - 1));
+                    if (thereAreMultipleNullNames) {
+                        greeting = new StringBuilder(LOWERCASE_GREETING_STARTER + STAND_IN_MULTIPLE + UPPERCASE_NEW_GREETING + greeting + SHOUTING_GREETING_END);
+                    } else {
+                        greeting = new StringBuilder(LOWERCASE_GREETING_STARTER + STAND_IN + UPPERCASE_NEW_GREETING + greeting + SHOUTING_GREETING_END);
+                    }
+                }
+            } else {
+                if (uppercaseNames.size() == 1) {
+                    greeting.append(uppercaseNames.get(0)).append(SHOUTING_GREETING_END);
+                } else {
+                    greeting = new StringBuilder(uppercaseNames.subList(0, uppercaseNames.size() - 1)
+                            .stream()
+                            .map(String::toUpperCase)
+                            .collect(Collectors.joining(REGULAR_DELIMITER)));
+                    greeting.append(UPPERCASE_LAST_DELIMITER).append(uppercaseNames.get(uppercaseNames.size() - 1)).append(SHOUTING_GREETING_END);
+                }
+            }
+
+            if (thereAreNullNames) {
+                return greeting;
+            } else {
+                return new StringBuilder(UPPERCASE_GREETING_STARTER + greeting);
+            }
+        }
+        if (thereAreNullNames) {
+            if (thereAreMultipleNullNames) {
+                greeting.append(STAND_IN_MULTIPLE);
+            } else {
+                greeting.append(STAND_IN);
+            }
+            return new StringBuilder(String.format(BASIC_GREETING, greeting));
+        }
+
+        return new StringBuilder(EMPTY);
+    }
+
+    private StringBuilder makeLowercaseGreeting(StringBuilder greeting) {
+        if (thereAreNullNames) {
+            greeting = makeRegularGreeting(greeting);
+        } else {
+            if (regularNames.size() == 1) {
+                greeting.append(regularNames.get(0));
+            } else {
+                greeting.append(String.join(REGULAR_DELIMITER, regularNames.subList(0, regularNames.size() - 1)));
+                greeting.append(LOWERCASE_LAST_DELIMITER).append(regularNames.get(regularNames.size() - 1));
+            }
+        }
+        return greeting;
+    }
+
+    private StringBuilder addUppercaseGreeting(StringBuilder greeting) {
+        if (uppercaseNames.size() == 1) {
+            greeting.append(UPPERCASE_NEW_GREETING).append(uppercaseNames.get(0)).append(SHOUTING_GREETING_END);
+        } else {
+            greeting.append(UPPERCASE_NEW_GREETING)
+                    .append(uppercaseNames.subList(0, uppercaseNames.size() - 1)
+                    .stream()
+                    .map(String::toUpperCase)
+                    .collect(Collectors.joining(REGULAR_DELIMITER)));
+            greeting.append(UPPERCASE_LAST_DELIMITER).append(uppercaseNames.get(uppercaseNames.size() - 1));
+            greeting.append(SHOUTING_GREETING_END);
+        }
+        return greeting;
+    }
+
+    private StringBuilder makeRegularGreeting(StringBuilder greeting) {
+        if (regularNames.size() == 1) {
+            greeting.append(regularNames.get(0));
+        } else {
+            greeting.append(
+                    String.join(
+                            REGULAR_DELIMITER,
+                            regularNames.subList(0, regularNames.size() - 1)
+                    )
+            );
+            greeting.append(REGULAR_DELIMITER).append(regularNames.get(regularNames.size() - 1));
+        }
+        if (thereAreMultipleNullNames) {
+            greeting.append(LOWERCASE_LAST_DELIMITER + STAND_IN_MULTIPLE);
+        } else {
+            greeting.append(LOWERCASE_LAST_DELIMITER + STAND_IN);
+        }
+        return greeting;
+    }
+
+    private void analiseGivenNames(String ... names) {
         for (String name : names) {
             if (name == null || name.isBlank()) {
                 if (thereAreNullNames) {
@@ -30,97 +160,10 @@ public class Greeter {
                     thereAreNullNames = true;
                 }
             } else if (name.equals(name.toUpperCase())) {
-                shoutingNames.add(name);
+                uppercaseNames.add(name);
             } else {
-                normalNames.add(name);
+                regularNames.add(name);
             }
-        }
-
-        String greeting = EMPTY;
-
-        if (!normalNames.isEmpty()) {
-            if (normalNames.size() == 1) {
-                greeting += normalNames.get(0);
-                if (thereAreNullNames) {
-                    if (thereAreMultipleNullNames) {
-                        greeting += " and " + STAND_IN_MULTIPLE;
-                    } else {
-                        greeting += " and " + STAND_IN;
-                    }
-                }
-            } else {
-                greeting += normalNames.subList(0, normalNames.size() - 1)
-                        .stream()
-                        .collect(Collectors.joining(", "));
-                if (thereAreNullNames) {
-                    greeting += ", " + normalNames.get(normalNames.size() - 1);
-                    if (thereAreMultipleNullNames) {
-                        greeting += " and " + STAND_IN_MULTIPLE;
-                    } else {
-                        greeting += " and " + STAND_IN;
-                    }
-                } else {
-                    greeting += " and " + normalNames.get(normalNames.size() - 1);
-                }
-            }
-
-            if (!shoutingNames.isEmpty()) {
-                if (shoutingNames.size() == 1) {
-                    greeting += ". AND HELLO, " + shoutingNames.get(0) + "!";
-                } else {
-                    greeting += ". AND HELLO, " + shoutingNames.subList(0, shoutingNames.size() - 1)
-                            .stream()
-                            .map(name -> name.toUpperCase())
-                            .collect(Collectors.joining(", "));
-                    greeting += " AND " + shoutingNames.get(shoutingNames.size() - 1);
-                    greeting += "!";
-                }
-            }
-        } else if (!shoutingNames.isEmpty()){
-            if (shoutingNames.size() == 1) {
-                greeting += shoutingNames.get(0) + "!";
-                if (thereAreNullNames) {
-                    if (thereAreMultipleNullNames) {
-                        greeting = "Hello, " + STAND_IN_MULTIPLE + ". AND HELLO, " + greeting;
-                    } else {
-                        greeting = "Hello, " + STAND_IN + ". AND HELLO, " + greeting;
-                    }
-                }
-            } else {
-                greeting = shoutingNames.subList(0, shoutingNames.size() - 1)
-                        .stream()
-                        .map(name -> name.toUpperCase())
-                        .collect(Collectors.joining(", "));
-                if (thereAreNullNames) {
-                    greeting += " AND " + shoutingNames.get(shoutingNames.size() - 1);
-                    if (thereAreMultipleNullNames) {
-                        greeting = "Hello, " + STAND_IN_MULTIPLE + ". AND HELLO, " + greeting + "!";
-                    } else {
-                        greeting = "Hello, " + STAND_IN + ". AND HELLO, " + greeting + "!";
-                    }
-                } else {
-                    greeting += " AND " + shoutingNames.get(shoutingNames.size() - 1) + "!";
-                }
-            }
-        } else if (thereAreNullNames) {
-            if (thereAreMultipleNullNames) {
-                greeting += STAND_IN_MULTIPLE;
-            } else {
-                greeting += STAND_IN;
-            }
-        }
-
-        if (greeting.endsWith("!")) {
-            if (thereAreNullNames && normalNames.isEmpty()) {
-                return String.format(greeting);
-            }
-            if (normalNames.isEmpty()) {
-                return String.format("HELLO, %s", greeting);
-            }
-            return String.format("Hello, %s", greeting);
-        } else {
-            return String.format(BASIC_GREETING, greeting);
         }
     }
-
 }
