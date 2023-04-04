@@ -17,8 +17,8 @@ public class Greeter {
     private static final String UPPERCASE_GREETING_STARTER = "HELLO, ";
     private static final String SHOUTING_GREETING_END = "!";
 
-    boolean thereAreNullNames = false;
-    boolean thereAreMultipleNullNames = false;
+    boolean containsNullNames = false;
+    boolean containsMultipleNullNames = false;
 
     List<String> regularNames = new ArrayList<>();
     List<String> uppercaseNames = new ArrayList<>();
@@ -42,55 +42,36 @@ public class Greeter {
             makeLowercaseGreeting(greeting);
             addUppercaseGreeting(greeting);
 
-            return new StringBuilder(LOWERCASE_GREETING_STARTER + greeting);
+            StringBuilder greetingTemp = new StringBuilder();
+            return greetingTemp.append(LOWERCASE_GREETING_STARTER)
+                        .append(greeting);
         }
         if (!regularNames.isEmpty()) {
             makeLowercaseGreeting(greeting);
             return new StringBuilder(String.format(BASIC_GREETING, greeting));
         }
         if (!uppercaseNames.isEmpty()) {
-            if (thereAreNullNames) {
-                if (uppercaseNames.size() == 1) {
-                    greeting.append(uppercaseNames.get(0)).append(SHOUTING_GREETING_END);
-                    if (thereAreMultipleNullNames) {
-                        greeting = new StringBuilder(LOWERCASE_GREETING_STARTER + STAND_IN_MULTIPLE + UPPERCASE_NEW_GREETING + greeting);
-                    } else {
-                        greeting = new StringBuilder(LOWERCASE_GREETING_STARTER + STAND_IN + UPPERCASE_NEW_GREETING + greeting);
-                    }
+            greeting = makeUppercaseGreeting(greeting);
+            StringBuilder greetingTemp;
+            if (containsNullNames) {
+                greetingTemp = new StringBuilder(LOWERCASE_GREETING_STARTER);
+                if (containsMultipleNullNames) {
+                    greetingTemp.append(STAND_IN_MULTIPLE);
                 } else {
-                    greeting = new StringBuilder(
-                            uppercaseNames.subList(0, uppercaseNames.size() - 1)
-                            .stream()
-                            .map(String::toUpperCase)
-                            .collect(Collectors.joining(REGULAR_DELIMITER))
-                    );
-                    greeting.append(UPPERCASE_LAST_DELIMITER).append(uppercaseNames.get(uppercaseNames.size() - 1));
-                    if (thereAreMultipleNullNames) {
-                        greeting = new StringBuilder(LOWERCASE_GREETING_STARTER + STAND_IN_MULTIPLE + UPPERCASE_NEW_GREETING + greeting + SHOUTING_GREETING_END);
-                    } else {
-                        greeting = new StringBuilder(LOWERCASE_GREETING_STARTER + STAND_IN + UPPERCASE_NEW_GREETING + greeting + SHOUTING_GREETING_END);
-                    }
+                    greetingTemp.append(STAND_IN);
                 }
+                greetingTemp.append(UPPERCASE_NEW_GREETING)
+                        .append(greeting)
+                        .append(SHOUTING_GREETING_END);
             } else {
-                if (uppercaseNames.size() == 1) {
-                    greeting.append(uppercaseNames.get(0)).append(SHOUTING_GREETING_END);
-                } else {
-                    greeting = new StringBuilder(uppercaseNames.subList(0, uppercaseNames.size() - 1)
-                            .stream()
-                            .map(String::toUpperCase)
-                            .collect(Collectors.joining(REGULAR_DELIMITER)));
-                    greeting.append(UPPERCASE_LAST_DELIMITER).append(uppercaseNames.get(uppercaseNames.size() - 1)).append(SHOUTING_GREETING_END);
-                }
+                greetingTemp = new StringBuilder(UPPERCASE_GREETING_STARTER);
+                greetingTemp.append(greeting)
+                        .append(SHOUTING_GREETING_END);
             }
-
-            if (thereAreNullNames) {
-                return greeting;
-            } else {
-                return new StringBuilder(UPPERCASE_GREETING_STARTER + greeting);
-            }
+            return greetingTemp;
         }
-        if (thereAreNullNames) {
-            if (thereAreMultipleNullNames) {
+        if (containsNullNames) {
+            if (containsMultipleNullNames) {
                 greeting.append(STAND_IN_MULTIPLE);
             } else {
                 greeting.append(STAND_IN);
@@ -101,9 +82,22 @@ public class Greeter {
         return new StringBuilder(EMPTY);
     }
 
+    private StringBuilder makeUppercaseGreeting(StringBuilder greeting) {
+        if (uppercaseNames.size() == 1) {
+            greeting.append(uppercaseNames.get(0));
+        } else {
+            greeting = new StringBuilder(uppercaseNames.subList(0, uppercaseNames.size() - 1)
+                    .stream()
+                    .map(String::toUpperCase)
+                    .collect(Collectors.joining(REGULAR_DELIMITER)));
+            greeting.append(UPPERCASE_LAST_DELIMITER).append(uppercaseNames.get(uppercaseNames.size() - 1));
+        }
+        return greeting;
+    }
+
     private void makeLowercaseGreeting(StringBuilder greeting) {
-        if (thereAreNullNames) {
-            makeRegularGreeting(greeting);
+        if (containsNullNames) {
+            generateAutomaticGreeting(greeting);
         } else {
             addLowercaseGreeting(greeting, LOWERCASE_LAST_DELIMITER);
         }
@@ -123,16 +117,16 @@ public class Greeter {
         }
     }
 
-    private void makeRegularGreeting(StringBuilder greeting) {
+    private void generateAutomaticGreeting(StringBuilder greeting) {
         addLowercaseGreeting(greeting, REGULAR_DELIMITER);
-        if (thereAreMultipleNullNames) {
+        if (containsMultipleNullNames) {
             greeting.append(LOWERCASE_LAST_DELIMITER + STAND_IN_MULTIPLE);
         } else {
             greeting.append(LOWERCASE_LAST_DELIMITER + STAND_IN);
         }
     }
 
-    private void addLowercaseGreeting(StringBuilder greeting, String regularDelimiter) {
+    private void addLowercaseGreeting(StringBuilder greeting, String delimiter) {
         if (regularNames.size() == 1) {
             greeting.append(regularNames.get(0));
         } else {
@@ -142,17 +136,18 @@ public class Greeter {
                             regularNames.subList(0, regularNames.size() - 1)
                     )
             );
-            greeting.append(regularDelimiter).append(regularNames.get(regularNames.size() - 1));
+            greeting.append(delimiter)
+                    .append(regularNames.get(regularNames.size() - 1));
         }
     }
 
     private void analiseGivenNames(String ... names) {
         for (String name : names) {
             if (name == null || name.isBlank()) {
-                if (thereAreNullNames) {
-                    thereAreMultipleNullNames = true;
+                if (containsNullNames) {
+                    containsMultipleNullNames = true;
                 } else {
-                    thereAreNullNames = true;
+                    containsNullNames = true;
                 }
             } else if (name.equals(name.toUpperCase())) {
                 uppercaseNames.add(name);
