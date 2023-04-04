@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="tdd_kata.GreeterTest" tests="21" skipped="0" failures="0" errors="0" timestamp="2023-04-04T09:56:55" hostname="jecop" time="0.132">
+<testsuite name="tdd_kata.GreeterTest" tests="21" skipped="0" failures="0" errors="0" timestamp="2023-04-04T18:52:30" hostname="jecop" time="0.082">
   <properties/>
-  <testcase name="givenSingleRegularNameAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn()" classname="tdd_kata.GreeterTest" time="0.068"/>
-  <testcase name="givenMultipleNamesInUppercaseAndMultipleRegularNamesAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.003"/>
-  <testcase name="givenSingleNameInUppercaseAndSingleNullName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.002"/>
+  <testcase name="givenSingleRegularNameAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn()" classname="tdd_kata.GreeterTest" time="0.041"/>
+  <testcase name="givenMultipleNamesInUppercaseAndMultipleRegularNamesAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.002"/>
+  <testcase name="givenSingleNameInUppercaseAndSingleNullName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.001"/>
   <testcase name="givenMultipleNamesAreAllInUppercase_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCase()" classname="tdd_kata.GreeterTest" time="0.002"/>
-  <testcase name="givenMultipleRegularNamesAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn()" classname="tdd_kata.GreeterTest" time="0.002"/>
-  <testcase name="givenMultipleNamesAreNullOrEmpty_whenGreetMethodIsCalled_thenGreetingShouldContainMultipleStandIn()" classname="tdd_kata.GreeterTest" time="0.002"/>
+  <testcase name="givenMultipleRegularNamesAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn()" classname="tdd_kata.GreeterTest" time="0.001"/>
+  <testcase name="givenMultipleNamesAreNullOrEmpty_whenGreetMethodIsCalled_thenGreetingShouldContainMultipleStandIn()" classname="tdd_kata.GreeterTest" time="0.001"/>
   <testcase name="givenNameIsEmpty_whenGreetMethodIsCalled_thenGreetingShouldContainStandIn()" classname="tdd_kata.GreeterTest" time="0.001"/>
   <testcase name="givenMultipleNamesInUppercaseAndSingleBlankName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.001"/>
-  <testcase name="givenSingleNameInUppercaseAndMultipleRegularNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.001"/>
+  <testcase name="givenSingleNameInUppercaseAndMultipleRegularNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.0"/>
   <testcase name="givenMultipleNamesInUppercaseAndMultipleBlankNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.001"/>
-  <testcase name="givenMultipleRegularNamesAndSingleBlankName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn()" classname="tdd_kata.GreeterTest" time="0.001"/>
+  <testcase name="givenMultipleRegularNamesAndSingleBlankName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn()" classname="tdd_kata.GreeterTest" time="0.0"/>
   <testcase name="givenMultipleNamesInUppercaseAndSingleRegularName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.001"/>
   <testcase name="givenNameIsAllUppercase_whenGreetMethodIsCalled_thenGreetingShouldBeInUppercase()" classname="tdd_kata.GreeterTest" time="0.001"/>
   <testcase name="givenSingleRegularNameAndSingleNullName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn()" classname="tdd_kata.GreeterTest" time="0.001"/>
-  <testcase name="givenMultipleRegularNamesAndSingleNullName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn()" classname="tdd_kata.GreeterTest" time="0.002"/>
-  <testcase name="givenMultipleUppercaseAndMultipleRegularNamesAndSingleNullName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.002"/>
-  <testcase name="givenSingleNameInUppercaseAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.002"/>
+  <testcase name="givenMultipleRegularNamesAndSingleNullName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn()" classname="tdd_kata.GreeterTest" time="0.0"/>
+  <testcase name="givenMultipleUppercaseAndMultipleRegularNamesAndSingleNullName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.001"/>
+  <testcase name="givenSingleNameInUppercaseAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.001"/>
   <testcase name="givenNameIsNull_whenGreetMethodIsCalled_thenGreetingShouldContainStandIn()" classname="tdd_kata.GreeterTest" time="0.001"/>
   <testcase name="givenSingleNameInUppercaseAndMultipleRegularNamesAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.001"/>
-  <testcase name="givenMultipleNamesInUppercaseAndMultipleRegularNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.002"/>
+  <testcase name="givenMultipleNamesInUppercaseAndMultipleRegularNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder()" classname="tdd_kata.GreeterTest" time="0.0"/>
   <testcase name="givenSingleRegularName_whenGreetMethodIsCalled_thenGreetingShouldContainName()" classname="tdd_kata.GreeterTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
