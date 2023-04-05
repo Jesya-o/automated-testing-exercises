@@ -298,4 +298,60 @@ public class GreeterTest {
         Assertions.assertThat(actualGreeting).isEqualTo(expectedGreeting);
     }
 
+    @Test
+    public void givenTwoNamesInOne_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder() {
+        // Arrange
+        String[] names = {"Margo, Evans"};
+        String expectedGreeting = "Hello, Margo and Evans.";
+
+        // Act
+        Greeter greeter = new Greeter();
+        String actualGreeting = greeter.greet(names);
+
+        // Assert
+        Assertions.assertThat(actualGreeting).isEqualTo(expectedGreeting);
+    }
+
+    @Test
+    public void givenMultipleNamesInOne_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder() {
+        // Arrange
+        String[] names = {"Bob", "Amy", "Margo, Evans, Cris", "Charlie"};
+        String expectedGreeting = "Hello, Bob, Amy, Margo, Evans, Cris and Charlie.";
+
+        // Act
+        Greeter greeter = new Greeter();
+        String actualGreeting = greeter.greet(names);
+
+        // Assert
+        Assertions.assertThat(actualGreeting).isEqualTo(expectedGreeting);
+    }
+
+    @Test
+    public void givenMultipleNamesInOneWithNullNamesAndUppercaseNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder() {
+        // Arrange
+        String[] names = {"Bob", "Amy", "Margo, EVANS, Cris", "Charlie", "Michelle, MARY", null};
+        String expectedGreeting = "Hello, Bob, Amy, Margo, Cris, Charlie, Michelle and my friend. AND HELLO, EVANS AND MARY!";
+
+        // Act
+        Greeter greeter = new Greeter();
+        String actualGreeting = greeter.greet(names);
+
+        // Assert
+        Assertions.assertThat(actualGreeting).isEqualTo(expectedGreeting);
+    }
+
+    @Test
+    public void givenNamesWithIntentionalComma_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder() {
+        // Arrange
+        String[] names = {"Bob", "Amy", "Michelle, MARY", "\"Charlie, William\""};
+        String expectedGreeting = "Hello, Bob, Amy, Michelle and Charlie, William. AND HELLO, MARY!";
+
+        // Act
+        Greeter greeter = new Greeter();
+        String actualGreeting = greeter.greet(names);
+
+        // Assert
+        Assertions.assertThat(actualGreeting).isEqualTo(expectedGreeting);
+    }
+
 }

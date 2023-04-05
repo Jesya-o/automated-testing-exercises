@@ -134,7 +134,18 @@ public class Greeter {
                 } else {
                     containsNullNames = true;
                 }
-            } else if (name.equals(name.toUpperCase())) {
+            } else if (name.startsWith("\"") && name.endsWith("\"")) {
+                regularNames.add(name.substring(1, name.length() - 1));
+            }  else if (name.contains(",")) {
+                String[] splitNames = name.split("\\s*,\\s*");
+                for (String splitName : splitNames) {
+                    if (splitName.matches("^[A-Z\\s]+$")) {
+                        uppercaseNames.add(splitName);
+                    } else {
+                        regularNames.add(splitName);
+                    }
+                }
+            }  else if (name.equals(name.toUpperCase())) {
                 uppercaseNames.add(name);
             } else {
                 regularNames.add(name);
