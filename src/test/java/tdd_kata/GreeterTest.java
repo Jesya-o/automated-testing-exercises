@@ -4,12 +4,17 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class GreeterTest {
+
+    private static final String STAND_IN = "my friend";
+    private static final String STAND_IN_MULTIPLE = "my friends";
+    private static final String EMPTY = "";
+    private static final String BASIC_GREETING = "Hello, %s.";
     
     @Test
     public void givenNameIsNull_whenGreetMethodIsCalled_thenGreetingShouldContainStandIn() {
         // Arrange
         String name = null;
-        String expectedGreeting = String.format(Greeter.BASIC_GREETING, Greeter.STAND_IN);
+        String expectedGreeting = String.format(BASIC_GREETING, STAND_IN);
 
         // Act
         Greeter greeter = new Greeter();
@@ -22,8 +27,8 @@ public class GreeterTest {
     @Test
     public void givenNameIsEmpty_whenGreetMethodIsCalled_thenGreetingShouldContainStandIn() {
         // Arrange
-        String name = Greeter.EMPTY;
-        String expectedGreeting = String.format(Greeter.BASIC_GREETING, Greeter.STAND_IN);
+        String name = EMPTY;
+        String expectedGreeting = String.format(BASIC_GREETING, STAND_IN);
 
         // Act
         Greeter greeter = new Greeter();
@@ -36,8 +41,8 @@ public class GreeterTest {
     @Test
     public void givenMultipleNamesAreNullOrEmpty_whenGreetMethodIsCalled_thenGreetingShouldContainMultipleStandIn() {
         // Arrange
-        String[] names = {Greeter.EMPTY, null, Greeter.EMPTY};
-        String expectedGreeting = String.format(Greeter.BASIC_GREETING, Greeter.STAND_IN_MULTIPLE);
+        String[] names = {EMPTY, null, EMPTY};
+        String expectedGreeting = String.format(BASIC_GREETING, STAND_IN_MULTIPLE);
 
         // Act
         Greeter greeter = new Greeter();
@@ -51,7 +56,7 @@ public class GreeterTest {
     public void givenSingleRegularName_whenGreetMethodIsCalled_thenGreetingShouldContainName() {
         // Arrange
         String name = "Bob";
-        String expectedGreeting = String.format(Greeter.BASIC_GREETING, name);
+        String expectedGreeting = String.format(BASIC_GREETING, name);
 
         // Act
         Greeter greeter = new Greeter();
@@ -65,7 +70,7 @@ public class GreeterTest {
     public void givenSingleRegularNameAndSingleNullName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn() {
         // Arrange
         String[] names = {null, "Bob"};
-        String expectedGreeting = String.format(Greeter.BASIC_GREETING, "Bob and my friend");
+        String expectedGreeting = String.format(BASIC_GREETING, "Bob and my friend");
 
         // Act
         Greeter greeter = new Greeter();
@@ -79,7 +84,7 @@ public class GreeterTest {
     public void givenMultipleRegularNamesAndSingleNullName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn() {
         // Arrange
         String[] names = {"Bob", null, "Ann", "Cris"};
-        String expectedGreeting = String.format(Greeter.BASIC_GREETING, "Bob, Ann, Cris and my friend");
+        String expectedGreeting = String.format(BASIC_GREETING, "Bob, Ann, Cris and my friend");
 
         // Act
         Greeter greeter = new Greeter();
@@ -92,8 +97,8 @@ public class GreeterTest {
     @Test
     public void givenSingleRegularNameAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn() {
         // Arrange
-        String[] names = {null, "Bob", Greeter.EMPTY, null, Greeter.EMPTY};
-        String expectedGreeting = String.format(Greeter.BASIC_GREETING, "Bob and my friends");
+        String[] names = {null, "Bob", EMPTY, null, EMPTY};
+        String expectedGreeting = String.format(BASIC_GREETING, "Bob and my friends");
 
         // Act
         Greeter greeter = new Greeter();
@@ -106,8 +111,8 @@ public class GreeterTest {
     @Test
     public void givenMultipleRegularNamesAndSingleBlankName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn() {
         // Arrange
-        String[] names = {"Bob", Greeter.EMPTY, "Ann", "Cris"};
-        String expectedGreeting = String.format(Greeter.BASIC_GREETING, "Bob, Ann, Cris and my friend");
+        String[] names = {"Bob", EMPTY, "Ann", "Cris"};
+        String expectedGreeting = String.format(BASIC_GREETING, "Bob, Ann, Cris and my friend");
 
         // Act
         Greeter greeter = new Greeter();
@@ -119,8 +124,8 @@ public class GreeterTest {
     @Test
     public void givenMultipleRegularNamesAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesAndStandIn() {
         // Arrange
-        String[] names = {"Bob", null, Greeter.EMPTY, "Ann", "Cris", Greeter.EMPTY};
-        String expectedGreeting = String.format(Greeter.BASIC_GREETING, "Bob, Ann, Cris and my friends");
+        String[] names = {"Bob", null, EMPTY, "Ann", "Cris", EMPTY};
+        String expectedGreeting = String.format(BASIC_GREETING, "Bob, Ann, Cris and my friends");
 
         // Act
         Greeter greeter = new Greeter();
@@ -175,7 +180,7 @@ public class GreeterTest {
     @Test
     public void givenMultipleNamesInUppercaseAndSingleBlankName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder() {
         // Arrange
-        String[] names = {"BOB", "ANN", "CRIS", Greeter.EMPTY};
+        String[] names = {"BOB", "ANN", "CRIS", EMPTY};
         String expectedGreeting = "Hello, my friend. AND HELLO, BOB, ANN AND CRIS!";
 
         // Act
@@ -189,7 +194,7 @@ public class GreeterTest {
     @Test
     public void givenSingleNameInUppercaseAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder() {
         // Arrange
-        String[] names = {null, null, Greeter.EMPTY, "BOB", Greeter.EMPTY};
+        String[] names = {null, null, EMPTY, "BOB", EMPTY};
         String expectedGreeting = "Hello, my friends. AND HELLO, BOB!";
 
         // Act
@@ -203,7 +208,7 @@ public class GreeterTest {
     @Test
     public void givenMultipleNamesInUppercaseAndMultipleBlankNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder() {
         // Arrange
-        String[] names = {null, "BOB", "CRIS", Greeter.EMPTY};
+        String[] names = {null, "BOB", "CRIS", EMPTY};
         String expectedGreeting = "Hello, my friends. AND HELLO, BOB AND CRIS!";
 
         // Act
@@ -259,7 +264,7 @@ public class GreeterTest {
     @Test
     public void givenSingleNameInUppercaseAndMultipleRegularNamesAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder() {
         // Arrange
-        String[] names = {"Bob", null, Greeter.EMPTY, "ANN", "Cris"};
+        String[] names = {"Bob", null, EMPTY, "ANN", "Cris"};
         String expectedGreeting = "Hello, Bob, Cris and my friends. AND HELLO, ANN!";
 
         // Act
@@ -273,7 +278,7 @@ public class GreeterTest {
     @Test
     public void givenMultipleNamesInUppercaseAndMultipleRegularNamesAndMultipleNullNames_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder() {
         // Arrange
-        String[] names = {"BOB", "Bob", null, Greeter.EMPTY, "ANN", "Cris"};
+        String[] names = {"BOB", "Bob", null, EMPTY, "ANN", "Cris"};
         String expectedGreeting = "Hello, Bob, Cris and my friends. AND HELLO, BOB AND ANN!";
 
         // Act
@@ -287,7 +292,7 @@ public class GreeterTest {
     @Test
     public void givenMultipleUppercaseAndMultipleRegularNamesAndSingleNullName_whenGreetMethodIsCalled_thenGreetingShouldContainAllNamesInCorrectCaseAndOrder() {
         // Arrange
-        String[] names = {"BOB", "Bob", Greeter.EMPTY, "ANN", "Cris"};
+        String[] names = {"BOB", "Bob", EMPTY, "ANN", "Cris"};
         String expectedGreeting = "Hello, Bob, Cris and my friend. AND HELLO, BOB AND ANN!";
 
         // Act
