@@ -28,4 +28,10 @@ class AppTest {
         Response response = app.getBookingById(bookingId);
         app.getApiFramework().validateResponse(response, SC_OK);
     }
+
+    @Test
+    public void givenPayload_whenCreateBooking_thenShouldReturnHttpStatus200() {
+        Response response = createBooking();
+        app.getApiFramework().validateResponse(response, SC_OK);
+    }
 }
