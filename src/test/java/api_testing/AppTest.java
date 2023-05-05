@@ -21,4 +21,11 @@ class AppTest {
         app.getApiFramework().validateResponse(response, SC_OK);
     }
 
+    @Test
+    public void givenAcceptType_whenGetBookingById_thenShouldReturnHttpStatus200() {
+        int bookingId = 5237; // Any booking ID
+
+        Response response = app.getBookingById(bookingId);
+        app.getApiFramework().validateResponse(response, SC_OK);
+    }
 }
