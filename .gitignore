@@ -1,7 +1,8 @@
+# IDE
+.idea
+.vscode
+
 # Ignore Gradle project-specific cache directory
 .gradle
 build
 bin
-# Ignore IDE
-.idea
-.vscode
