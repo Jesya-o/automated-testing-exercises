@@ -1,79 +1,64 @@
-# Assignment 1: TDD Kata
+# API Testing with REST Assured
 
-## Introduction
+We are going to be learning API testing with REST Assured, and the software under test will be  
+an Open API called [Restful Booker](https://restful-booker.herokuapp.com/apidoc/index.html).
 
-This is a **graded exercise** for learning TDD by practicing using [code kata](http://vinaikopp.com/2016/02/09/about_code_katas/).  
+# Prerequisites
 
-The idea behind TDD kata is simple: 
-> We are going to work on a single functionality, but we will increase the complexity bit by bit while adding new tests in a TDD manner.  
-
-### Administrative info  
-- **Deadline:** end of week 16 of semester (sunday 23:59).
-- **Mark:** You can get a total of **25 points** for this exercise, 5 per requirement.
-- **Weapon of choice:** Choose the programming language or framework that you like.
-- The first 3 requirements are not marked... a warm-up, so to speak. 
-
-### Using the starter project
-
-Prerequisites:
 - JDK 17
-- Git
 
-Go into the ```tdd-kata``` directory and execute gradle build
-```bash
-./gradlew build
-```
+## Exercises
 
-Check that tests are working
-```bash
-./gradlew test
-```
+1. Get to know the software under test
+1. Let's write some tests without a robust framework
+1. Let's create a framework
 
-Delete dummy classes App.java and AppTest.java.
+## Exercise 1: Get to know Restful Booker API
 
-Write your own classes and implementation
+### Endpoints:
 
-## Code Kata: Greeting
+- GET booking
+- GET booking/{id}
+- POST booking
 
-### Requirement 1
-Write a method ```greet(name)``` that interpolates ```name``` into a simple greeting. For example, when 
-```name``` is ```"Bob"```, the method should return a string ```"Hello, Bob."```.
+### Tests
 
-### Requirement 2
-Handle empty or missing input by introducing a stand-in. For example, when ```name``` is null, then the method 
-should return the string ```"Hello, my friend."```.  
+- get all bookings should return 200
+- get booking by id should return 200
+- post booking should return 200
+- post booking response should contain id
+- post booking response should contain booking
 
-In case of multiple empty/null/etc inputs it should greet all the friends: ```"Hello, my friends."```.  
+## Exercise 2: Tests without automation framework
 
-**NB!** This requirement should work with the later requirements as well. Example:  
-```"Hello, Amy, Charlotte, and my friends. AND HELLO, BRIAN!"```
+Using third party library core functionality.
 
-### Requirement 3
-Handle shouting. When ```name``` is all uppercase, then the method should shout back to the user. 
-For example, when ```name``` is ```"JERRY"``` then the method should return the string ```"HELLO, JERRY!"```.
+## Exercise 3: Let's create a framework
 
-### Requirement 4
-Handle two names of input. When ```name``` is an array of two names (or, in languages that support 
-it, varargs or a splat), then both names should be printed. For example, when ```name``` is 
-```["Jill", "Jane"]```, then the method should return the string ```"Hello, Jill and Jane."```.
+Adding abstraction and additional functionality atop third party library.
 
-### Requirement 5
-Handle an arbitrary number of names as input. When ```name``` represents more than two names, 
-separate them with commas and close with an Oxford comma and "and". For example, when ```name``` 
-is ```["Amy", "Brian", "Charlotte"]```, then the method should return the string ```"Hello, Amy, Brian, and Charlotte."```
+### Framework functionality
 
-### Requirement 6
-Allow mixing of normal and shouted names by separating the response into two greetings. 
-For example, when ```name``` is ```["Amy", "BRIAN", "Charlotte"]```, then the method should return 
-the string ```"Hello, Amy and Charlotte. AND HELLO, BRIAN!"```.
+- Efficient way to communicate with API
+- Efficient way to add payload
+- Efficient way to validate response
+- Efficient way to create payloads with test data
+- Tests speak business logic (to some extent)
 
-### Requirement 7
-If any entries in ```name``` are a string containing a comma, split it as its own input. For 
-example, when ```name``` is ```["Bob", "Charlie, Dianne"]```, then the method should return the 
-string ```"Hello, Bob, Charlie, and Dianne."```.
+## Assignment
 
-### Requirement 8
-Allow the input to escape intentional commas introduced by Requirement 7. These can 
-be escaped in the same manner that CSV is, with double quotes surrounding the entry. 
-For example, when ```name``` is ```["Bob", "\"Charlie, Dianne\""]```, then the method should return 
-the string ```"Hello, Bob and Charlie, Dianne."```.
+### Goals
+
+- Add a layer of abstraction to hide setup and repetitive tasks
+- Framework enables to efficiently build requests and handle API calls
+- Write tests using custom developed framework (better readability)
+- Flexible to manage and use test data
+
+### Tests
+
+- post authentication with correct credentials returns 200
+- post authentication with correct credentials returns 401
+- post authentication returns token
+- post booking with wrong Accept header returns 418
+- put booking should return 200
+- delete booking should return 201
