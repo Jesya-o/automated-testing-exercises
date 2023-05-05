@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.apache.http.HttpStatus.SC_OK;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class AppTest {
     private static App app;
@@ -26,7 +27,7 @@ class AppTest {
 
     @Test
     public void givenAcceptType_whenGetBookingById_thenShouldReturnHttpStatus200() {
-        int bookingId = 5237; // Any booking ID
+        int bookingId = 1977; // Any valid booking ID
 
         Response response = app.getBookingById(bookingId);
         app.getApiFramework().validateResponse(response, SC_OK);
@@ -36,6 +37,24 @@ class AppTest {
     public void givenPayload_whenCreateBooking_thenShouldReturnHttpStatus200() {
         Response response = app.createBooking(createSamplePayload());
         app.getApiFramework().validateResponse(response, SC_OK);
+    }
+
+    @Test
+    public void postBookingResponseShouldContainId() {
+        Response response = app.createBooking(createSamplePayload());
+        Map<String, Object> responseBody = response.jsonPath().getMap("$");
+
+        assertNotNull(responseBody.get("bookingid"));
+        assertNotNull(responseBody.get("booking"));
+    }
+
+    @Test
+    public void postBookingResponseShouldContainBooking() {
+        Response response = app.createBooking(createSamplePayload());
+        Map<String, Object> responseBody = response.jsonPath().getMap("$");
+
+        assertNotNull(responseBody.get("bookingid"));
+        assertNotNull(responseBody.get("booking"));
     }
 
     private Map<String, Object> createSamplePayload() {
