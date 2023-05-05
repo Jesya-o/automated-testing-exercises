@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import static org.apache.http.HttpStatus.SC_OK;
 
 class AppTest {
-
     private static App app;
 
     @BeforeAll
