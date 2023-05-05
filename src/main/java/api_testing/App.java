@@ -21,4 +21,10 @@ public class App {
         RequestSpecification request = apiFramework.createRequest();
         return apiFramework.sendRequest(request, GET, BOOKING);
     }
+
+    public Response getBookingById(int id) {
+        RequestSpecification request = apiFramework.createRequest();
+        request.pathParam("id", id);
+        return apiFramework.sendRequest(request, GET, BOOKING + "/{id}");
+    }
 }
