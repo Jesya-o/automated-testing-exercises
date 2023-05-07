@@ -46,7 +46,8 @@ class AppTest {
 
     @Test
     public void givenAcceptType_whenGetBookingById_thenShouldReturnHttpStatus200() {
-        int bookingId = 85; // Any valid booking ID
+        Response createResponse = app.createBooking(createSamplePayload());
+        int bookingId = createResponse.jsonPath().getInt("bookingid");
 
         Response response = app.getBookingById(bookingId);
         app.getApiFramework().validateResponse(response, SC_OK);
