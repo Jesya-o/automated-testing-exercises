@@ -73,4 +73,14 @@ class AppTest {
 
         return payload;
     }
+
+    @Test
+    public void postAuthenticationWithCorrectCredentialsReturns200() {
+        Map<String, String> credentials = new HashMap<>();
+        credentials.put("username", "admin");
+        credentials.put("password", "password123");
+
+        Response response = app.authenticate(credentials);
+        app.getApiFramework().validateResponse(response, SC_OK);
+    }
 }
