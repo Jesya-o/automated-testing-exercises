@@ -119,4 +119,14 @@ class AppTest {
         app.getApiFramework().validateResponse(response, 418);
     }
 
+    @Test
+    public void putBookingShouldReturn200() {
+        int bookingId = 85; // Any valid booking ID
+        Map<String, Object> updatedPayload = createSamplePayload();
+        updatedPayload.put("lastname", "new lastname");
+
+        Response response = app.updateBooking(bookingId, updatedPayload);
+        app.getApiFramework().validateResponse(response, SC_OK);
+    }
+
 }
