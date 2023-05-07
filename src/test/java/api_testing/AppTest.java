@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.apache.http.HttpStatus.SC_NO_CONTENT;
+import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -150,7 +150,7 @@ class AppTest {
         String token = app.getToken(credentials);
 
         Response response = app.deleteBooking(bookingId, token);
-        app.getApiFramework().validateResponse(response, SC_NO_CONTENT);
+        app.getApiFramework().validateResponse(response, SC_CREATED);
     }
 
 }

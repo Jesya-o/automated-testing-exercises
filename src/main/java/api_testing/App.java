@@ -13,6 +13,7 @@ public class App {
     private final String GET = "GET";
     private final String POST = "POST";
     private final String PUT = "PUT";
+    private final String DELETE = "DELETE";
 
 
     public RestfulAPIFramework getApiFramework() {
@@ -65,5 +66,12 @@ public class App {
         apiFramework.setPayload(request, updatedPayload);
         request.pathParam("id", bookingId);
         return apiFramework.sendRequest(request, PUT, BOOKING + "/{id}");
+    }
+
+    public Response deleteBooking(int bookingId, String token) {
+        RequestSpecification request = apiFramework.createRequest(ContentType.JSON);
+        request.header("Cookie", "token=" + token);
+        request.pathParam("id", bookingId);
+        return apiFramework.sendRequest(request, DELETE, BOOKING + "/{id}");
     }
 }
