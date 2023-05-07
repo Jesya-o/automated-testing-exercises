@@ -1,13 +1,13 @@
 package api_testing;
 
 import io.restassured.response.Response;
-import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -23,7 +23,7 @@ class AppTest {
     @Test
     public void givenAcceptType_whenGetAllBooking_thenShouldReturnHttpStatus200() {
         Response response = app.getAllBookings();
-        app.getApiFramework().validateResponse(response, HttpStatus.SC_OK);
+        app.getApiFramework().validateResponse(response, SC_OK);
     }
 
     @Test
@@ -31,13 +31,13 @@ class AppTest {
         int bookingId = 1977; // Any valid booking ID
 
         Response response = app.getBookingById(bookingId);
-        app.getApiFramework().validateResponse(response, HttpStatus.SC_OK);
+        app.getApiFramework().validateResponse(response, SC_OK);
     }
 
     @Test
     public void givenPayload_whenCreateBooking_thenShouldReturnHttpStatus200() {
         Response response = app.createBooking(createSamplePayload());
-        app.getApiFramework().validateResponse(response, HttpStatus.SC_OK);
+        app.getApiFramework().validateResponse(response, SC_OK);
     }
 
     @Test
@@ -82,7 +82,7 @@ class AppTest {
         credentials.put("password", "password123");
 
         Response response = app.authenticate(credentials);
-        app.getApiFramework().validateResponse(response, HttpStatus.SC_OK);
+        app.getApiFramework().validateResponse(response, SC_OK);
     }
 
     @Test
@@ -93,9 +93,22 @@ class AppTest {
 
         Response response = app.authenticate(credentials);
 //        app.getApiFramework().validateResponse(response, HttpStatus.SC_UNAUTHORIZED);
-        app.getApiFramework().validateResponse(response, HttpStatus.SC_OK);
+        app.getApiFramework().validateResponse(response, SC_OK);
 
         String token = response.jsonPath().getString("token");
         assertNull(token);
+    }
+
+    @Test
+    public void postAuthenticationReturnsToken() {
+        Map<String, String> credentials = new HashMap<>();
+        credentials.put("username", "admin");
+        credentials.put("password", "password123");
+
+        Response response = app.authenticate(credentials);
+        app.getApiFramework().validateResponse(response, SC_OK);
+
+        String token = response.jsonPath().getString("token");
+        assertNotNull(token);
     }
 }
