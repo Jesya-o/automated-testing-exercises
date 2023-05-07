@@ -36,4 +36,10 @@ public class App {
         apiFramework.setPayload(request, payload);
         return apiFramework.sendRequest(request, POST, BOOKING);
     }
+
+    public Response authenticate(Map<String, String> credentials) {
+        RequestSpecification request = apiFramework.createRequest();
+        apiFramework.setPayload(request, credentials);
+        return apiFramework.sendRequest(request, POST, "/auth");
+    }
 }

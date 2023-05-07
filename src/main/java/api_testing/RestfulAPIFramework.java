@@ -5,8 +5,6 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-import java.util.Map;
-
 public class RestfulAPIFramework {
 
     public RestfulAPIFramework(String baseURI) {
@@ -21,7 +19,7 @@ public class RestfulAPIFramework {
         return request.when().request(httpMethod, endpoint);
     }
 
-    public void setPayload(RequestSpecification request, Map<String, Object> payload) {
+    public <T> void setPayload(RequestSpecification request, T payload) {
         request.body(payload);
     }
 
