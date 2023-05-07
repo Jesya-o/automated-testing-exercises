@@ -111,4 +111,10 @@ class AppTest {
         String token = response.jsonPath().getString("token");
         assertNotNull(token);
     }
+
+    @Test
+    public void postBookingWithWrongAcceptHeaderReturns418() {
+        Response response = app.createBookingWithWrongAcceptHeader(createSamplePayload());
+        app.getApiFramework().validateResponse(response, 418);
+    }
 }
