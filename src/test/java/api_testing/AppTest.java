@@ -14,6 +14,23 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class AppTest {
     private static App app;
 
+    private Map<String, Object> createSamplePayload() {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("firstname", "Max");
+        payload.put("lastname", "Well");
+        payload.put("totalprice", 666);
+        payload.put("depositpaid", true);
+
+        Map<String, String> bookingDates = new HashMap<>();
+        bookingDates.put("checkin", "2023-05-10");
+        bookingDates.put("checkout", "2023-05-17");
+
+        payload.put("bookingdates", bookingDates);
+        payload.put("additionalneeds", "Breakfast");
+
+        return payload;
+    }
+
     @BeforeAll
     public static void setup() {
         RestfulAPIFramework apiFramework = new RestfulAPIFramework("https://restful-booker.herokuapp.com");
@@ -28,7 +45,7 @@ class AppTest {
 
     @Test
     public void givenAcceptType_whenGetBookingById_thenShouldReturnHttpStatus200() {
-        int bookingId = 1977; // Any valid booking ID
+        int bookingId = 85; // Any valid booking ID
 
         Response response = app.getBookingById(bookingId);
         app.getApiFramework().validateResponse(response, SC_OK);
@@ -56,23 +73,6 @@ class AppTest {
 
         assertNotNull(responseBody.get("bookingid"));
         assertNotNull(responseBody.get("booking"));
-    }
-
-    private Map<String, Object> createSamplePayload() {
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("firstname", "Max");
-        payload.put("lastname", "Well");
-        payload.put("totalprice", 666);
-        payload.put("depositpaid", true);
-
-        Map<String, String> bookingDates = new HashMap<>();
-        bookingDates.put("checkin", "2023-05-10");
-        bookingDates.put("checkout", "2023-05-17");
-
-        payload.put("bookingdates", bookingDates);
-        payload.put("additionalneeds", "Breakfast");
-
-        return payload;
     }
 
     @Test
@@ -114,7 +114,9 @@ class AppTest {
 
     @Test
     public void postBookingWithWrongAcceptHeaderReturns418() {
-        Response response = app.createBookingWithWrongAcceptHeader(createSamplePayload());
+        String wrongAcceptHeader = "text/plain";
+        Response response = app.createBookingWithWrongAcceptHeader(createSamplePayload(), wrongAcceptHeader);
         app.getApiFramework().validateResponse(response, 418);
     }
+
 }

@@ -11,12 +11,20 @@ public class RestfulAPIFramework {
         RestAssured.baseURI = baseURI;
     }
 
-    public RequestSpecification createRequest() {
-        return RestAssured.given().contentType(ContentType.JSON);
+    public RequestSpecification createRequest(ContentType contentType, String acceptHeaderValue) {
+        return RestAssured.given().contentType(contentType).header("Accept", acceptHeaderValue);
+    }
+
+    public RequestSpecification createRequest(ContentType contentType) {
+        return RestAssured.given().contentType(contentType).header("Accept", "application/json");
     }
 
     public Response sendRequest(RequestSpecification request, String httpMethod, String endpoint) {
         return request.when().request(httpMethod, endpoint);
+    }
+
+    public Response sendRequest(RequestSpecification request, String httpMethod, String endpoint, String acceptHeaderValue) {
+        return request.header("Accept", acceptHeaderValue).when().request(httpMethod, endpoint);
     }
 
     public <T> void setPayload(RequestSpecification request, T payload) {
