@@ -27,7 +27,7 @@ class AppTest {
     @Test
     public void givenAcceptType_whenGetAllBooking_thenShouldReturnHttpStatus200() {
         Response response = app.getAllBookings();
-        app.getApiFramework().validateResponse(response, SC_OK);
+        app.apiFramework().validateResponse(response, SC_OK);
     }
 
     @Test
@@ -36,14 +36,14 @@ class AppTest {
 
         Response response = app.getBookingById(sampleBookingId);
 
-        app.getApiFramework().validateResponse(response, SC_OK);
+        app.apiFramework().validateResponse(response, SC_OK);
     }
 
     @Test
     public void givenPayload_whenCreateBooking_thenShouldReturnHttpStatus200() {
         Response response = createSampleBooking();
 
-        app.getApiFramework().validateResponse(response, SC_OK);
+        app.apiFramework().validateResponse(response, SC_OK);
     }
 
     @Test
@@ -65,7 +65,7 @@ class AppTest {
     @Test
     public void postAuthenticationWithCorrectCredentialsReturns200() {
         Response response = app.authenticate(getCredentials());
-        app.getApiFramework().validateResponse(response, SC_OK);
+        app.apiFramework().validateResponse(response, SC_OK);
     }
 
     @Test
@@ -75,7 +75,7 @@ class AppTest {
         credentials.put("password", "wrong_pwd");
 
         Response response = app.authenticate(credentials);
-        app.getApiFramework().validateResponse(response, SC_OK);
+        app.apiFramework().validateResponse(response, SC_OK);
 
         String token = getToken(response);
         assertNull(token);
@@ -84,7 +84,7 @@ class AppTest {
     @Test
     public void postAuthenticationReturnsToken() {
         Response response = app.authenticate(getCredentials());
-        app.getApiFramework().validateResponse(response, SC_OK);
+        app.apiFramework().validateResponse(response, SC_OK);
 
         String token = getToken(response);
         assertNotNull(token);
@@ -95,7 +95,7 @@ class AppTest {
         String wrongAcceptHeader = "text/plain";
 
         Response response = app.createBookingWithWrongAcceptHeader(createSamplePayload(), wrongAcceptHeader);
-        app.getApiFramework().validateResponse(response, 418);
+        app.apiFramework().validateResponse(response, 418);
     }
 
     @Test
@@ -108,7 +108,7 @@ class AppTest {
         String token = app.getToken(getCredentials());
 
         Response response = app.updateBooking(sampleBookingId, updatedPayload, token);
-        app.getApiFramework().validateResponse(response, SC_OK);
+        app.apiFramework().validateResponse(response, SC_OK);
     }
 
     @Test
@@ -118,7 +118,7 @@ class AppTest {
         String token = app.getToken(getCredentials());
 
         Response response = app.deleteBooking(sampleBookingId, token);
-        app.getApiFramework().validateResponse(response, SC_CREATED);
+        app.apiFramework().validateResponse(response, SC_CREATED);
     }
 
     private Map<String, Object> createSamplePayload() {
