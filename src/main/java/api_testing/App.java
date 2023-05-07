@@ -12,6 +12,7 @@ public class App {
     private final String BOOKING = "/booking";
     private final String GET = "GET";
     private final String POST = "POST";
+    private final String PUT = "PUT";
 
 
     public RestfulAPIFramework getApiFramework() {
@@ -45,9 +46,24 @@ public class App {
         return apiFramework.sendRequest(request, POST, "/auth");
     }
 
+    public String getToken(Map<String, String> credentials) {
+        RequestSpecification request = apiFramework.createRequest(ContentType.JSON);
+        apiFramework.setPayload(request, credentials);
+        Response response = apiFramework.sendRequest(request, POST, "/auth");
+        return response.jsonPath().getString("token");
+    }
+
     public Response createBookingWithWrongAcceptHeader(Map<String, Object> payload, String wrongAcceptHeader) {
         RequestSpecification request = apiFramework.createRequest(ContentType.JSON);
         apiFramework.setPayload(request, payload);
         return apiFramework.sendRequest(request, POST, BOOKING, wrongAcceptHeader);
+    }
+
+    public Response updateBooking(int bookingId, Map<String, Object> updatedPayload, String token) {
+        RequestSpecification request = apiFramework.createRequest(ContentType.JSON);
+        request.header("Cookie", "token=" + token);
+        apiFramework.setPayload(request, updatedPayload);
+        request.pathParam("id", bookingId);
+        return apiFramework.sendRequest(request, PUT, BOOKING + "/{id}");
     }
 }

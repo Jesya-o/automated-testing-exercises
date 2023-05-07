@@ -121,12 +121,21 @@ class AppTest {
 
     @Test
     public void putBookingShouldReturn200() {
-        int bookingId = 85; // Any valid booking ID
-        Map<String, Object> updatedPayload = createSamplePayload();
-        updatedPayload.put("lastname", "new lastname");
+        Response createResponse = app.createBooking(createSamplePayload());
+        int bookingId = createResponse.jsonPath().getInt("bookingid");
 
-        Response response = app.updateBooking(bookingId, updatedPayload);
+        Map<String, Object> updatedPayload = createSamplePayload();
+        updatedPayload.put("lastname", "new-lastname");
+
+        Map<String, String> credentials = new HashMap<>();
+        credentials.put("username", "admin");
+        credentials.put("password", "password123");
+
+        String token = app.getToken(credentials);
+
+        Response response = app.updateBooking(bookingId, updatedPayload, token);
         app.getApiFramework().validateResponse(response, SC_OK);
     }
+
 
 }

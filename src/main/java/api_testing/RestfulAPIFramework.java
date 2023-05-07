@@ -11,10 +11,6 @@ public class RestfulAPIFramework {
         RestAssured.baseURI = baseURI;
     }
 
-    public RequestSpecification createRequest(ContentType contentType, String acceptHeaderValue) {
-        return RestAssured.given().contentType(contentType).header("Accept", acceptHeaderValue);
-    }
-
     public RequestSpecification createRequest(ContentType contentType) {
         return RestAssured.given().contentType(contentType).header("Accept", "application/json");
     }
