@@ -9,3 +9,4 @@
  */
 
 rootProject.name = 'api-testing'
+include('app')
