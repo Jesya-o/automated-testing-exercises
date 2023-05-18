@@ -26,4 +26,19 @@ public class InventoryPage {
                 .find(".btn_inventory")
                 .click();
     }
+
+    public void removeFromCart(String itemName) {
+        getItemByName(itemName)
+                .closest(".inventory_item")
+                .find(".btn_secondary")
+                .click();
+    }
+
+    public boolean buttonIs(String itemName, String state) {
+        SelenideElement button = getItemByName(itemName)
+                .closest(".inventory_item")
+                .find(".btn_inventory");
+
+        return state.equalsIgnoreCase(button.text());
+    }
 }

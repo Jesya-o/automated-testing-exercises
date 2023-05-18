@@ -25,4 +25,11 @@ public class CartPage {
                 .findBy(Condition.text(itemName))
                 .exists();
     }
+
+    public void removeItem(String itemName) {
+        $$(".cart_item")
+                .findBy(Condition.text(itemName))
+                .find(".btn_secondary.cart_button")
+                .click();
+    }
 }
