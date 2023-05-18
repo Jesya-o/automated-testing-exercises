@@ -81,6 +81,18 @@ public class InventoryPageTest {
         }
     }
 
+    @Test
+    public void whenTheItemNameIsClicked_thenOpensPageWithItem() {
+        HomePage homePage = openHomePage();
+        homePage.login("standard_user", "secret_sauce");
+
+        InventoryPage inventoryPage = new InventoryPage();
+        inventoryPage.openItem("Sauce Labs Backpack");
+
+        ItemPage itemPage = new ItemPage();
+        assertThat(itemPage.isPageOpened()).isTrue();
+    }
+
     private HomePage openHomePage() {
         open("https://www.saucedemo.com");
         return new HomePage();

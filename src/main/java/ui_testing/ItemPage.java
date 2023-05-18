@@ -6,10 +6,10 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-public class InventoryPage {
+public class ItemPage {
 
     public boolean isPageOpened() {
-        return $("#inventory_container").exists();
+        return $("#inventory_item_container").exists();
     }
 
     public SelenideElement getItemByName(String itemName) {
