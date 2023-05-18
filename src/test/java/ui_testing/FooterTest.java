@@ -8,14 +8,12 @@ import static com.codeborne.selenide.Selectors.byLinkText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.switchTo;
 import static org.assertj.core.api.Assertions.assertThat;
-import static ui_testing.TestHelper.openHomePage;
 import static ui_testing.TestHelper.openInventoryPage;
 
 public class FooterTest {
 
     @Test
     public void whenTwitterLinkClicked_thenTwitterPageShouldOpen() {
-        openHomePage();
         openInventoryPage();
         String currentTab = switchTo().window(0).getTitle();
 
@@ -30,7 +28,6 @@ public class FooterTest {
 
     @Test
     public void whenFacebookLinkClicked_thenFacebookPageShouldOpen() {
-        openHomePage();
         openInventoryPage();
         String currentTab = switchTo().window(0).getTitle();
 
@@ -45,7 +42,6 @@ public class FooterTest {
 
     @Test
     public void whenLinkedInLinkClicked_thenLinkedInPageShouldOpen() {
-        openHomePage();
         openInventoryPage();
         String currentTab = switchTo().window(0).getTitle();
 

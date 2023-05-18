@@ -6,16 +6,13 @@ import org.junit.jupiter.api.Test;
 import ui_testing.config.testsMapping;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ui_testing.TestHelper.openHomePage;
+import static ui_testing.TestHelper.openInventoryPage;
 
 public class CartPageTest {
 
     @Test
     public void whenItemIsRemovedFromCart_thenCartShouldNotContainItem() {
-        HomePage homePage = openHomePage();
-        homePage.login(testsMapping.username, testsMapping.password);
-
-        InventoryPage inventoryPage = new InventoryPage();
+        InventoryPage inventoryPage = openInventoryPage();
         inventoryPage.addToCart(testsMapping.item);
 
         CartPage cartPage = new CartPage();
@@ -30,10 +27,7 @@ public class CartPageTest {
 
     @Test
     public void whenContinueShoppingClicked_thenInventoryPageShouldOpen() {
-        HomePage homePage = openHomePage();
-        homePage.login(testsMapping.username, testsMapping.password);
-
-        InventoryPage inventoryPage = new InventoryPage();
+        InventoryPage inventoryPage = openInventoryPage();
         inventoryPage.addToCart(testsMapping.item);
 
         CartPage cartPage = new CartPage();

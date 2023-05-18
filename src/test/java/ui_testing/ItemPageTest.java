@@ -6,14 +6,13 @@ import org.junit.jupiter.api.Test;
 import ui_testing.config.testsMapping;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ui_testing.TestHelper.openHomePage;
+import static ui_testing.TestHelper.openInventoryPage;
 
 public class ItemPageTest {
 
     @Test
     public void whenBackToProductsClicked_thenInventoryPageShouldOpen() {
-        ItemPage itemPage = new ItemPage();
-        openItemPage();
+        ItemPage itemPage = openItemPage();
 
         itemPage.backToProducts();
 
@@ -23,16 +22,14 @@ public class ItemPageTest {
 
     @Test
     public void openedTheDesiredItem() {
-        ItemPage itemPage = new ItemPage();
-        openItemPage();
+        ItemPage itemPage = openItemPage();
 
         assertThat(itemPage.isItemDisplayed(testsMapping.item)).isTrue();
     }
 
     @Test
     public void whenItemIsAddedToCart_thenCartShouldOpenAndContainItem() {
-        ItemPage itemPage = new ItemPage();
-        openItemPage();
+        ItemPage itemPage = openItemPage();
 
         itemPage.addToCart(testsMapping.item);
 
@@ -46,8 +43,7 @@ public class ItemPageTest {
 
     @Test
     public void whenItemIsAddedToCart_thenButtonShouldDisplayRemove() {
-        ItemPage itemPage = new ItemPage();
-        openItemPage();
+        ItemPage itemPage = openItemPage();
 
         itemPage.addToCart(testsMapping.item);
 
@@ -56,8 +52,7 @@ public class ItemPageTest {
 
     @Test
     public void whenIsClickedToRemove_thenShouldBeButtonToAdd() {
-        ItemPage itemPage = new ItemPage();
-        openItemPage();
+        ItemPage itemPage = openItemPage();
 
         itemPage.addToCart(testsMapping.item);
         itemPage.removeFromCart(testsMapping.item);
@@ -67,8 +62,7 @@ public class ItemPageTest {
 
     @Test
     public void whenIsClickedToRemove_thenCartShouldNotContainItem() {
-        ItemPage itemPage = new ItemPage();
-        openItemPage();
+        ItemPage itemPage = openItemPage();
 
         itemPage.addToCart(testsMapping.item);
         itemPage.removeFromCart(testsMapping.item);
@@ -81,12 +75,10 @@ public class ItemPageTest {
         }
     }
 
-    private void openItemPage() {
-        HomePage homePage = openHomePage();
-        homePage.login(testsMapping.username, testsMapping.password);
-
-        InventoryPage inventoryPage = new InventoryPage();
+    private ItemPage openItemPage() {
+        InventoryPage inventoryPage = openInventoryPage();
         inventoryPage.openItem(testsMapping.item);
+        return new ItemPage();
     }
 
     @AfterEach

@@ -6,25 +6,32 @@ import org.junit.jupiter.api.Test;
 import ui_testing.config.testsMapping;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ui_testing.TestHelper.openHomePage;
+import static ui_testing.TestHelper.openInventoryPage;
 
 public class InventoryPageTest {
 
     @Test
     public void whenInventoryPageOpens_thenPageShouldBeDisplayed() {
-        HomePage homePage = openHomePage();
-        homePage.login(testsMapping.username, testsMapping.password);
-
-        InventoryPage inventoryPage = new InventoryPage();
+        InventoryPage inventoryPage = openInventoryPage();
         assertThat(inventoryPage.isPageOpened()).isTrue();
     }
 
     @Test
     public void whenItemIsAddedToCart_thenCartShouldOpenAndContainItem() {
-        HomePage homePage = openHomePage();
-        homePage.login(testsMapping.username, testsMapping.password);
+        InventoryPage inventoryPage = openInventoryPage();
+        inventoryPage.addToCart(testsMapping.item);
 
-        InventoryPage inventoryPage = new InventoryPage();
+        CartPage cartPage = new CartPage();
+        cartPage.open();
+        assertThat(cartPage.isPageOpened()).isTrue();
+        if (cartPage.isPageOpened()) {
+            assertThat(cartPage.isItemDisplayed(testsMapping.item)).isTrue();
+        }
+    }
+
+    @Test
+    public void whenAllItemsAreAddedToCart_thenCartShouldOpenAndContainAllItems() {
+        InventoryPage inventoryPage = openInventoryPage();
         inventoryPage.addToCart(testsMapping.item);
 
         CartPage cartPage = new CartPage();
@@ -37,19 +44,13 @@ public class InventoryPageTest {
 
     @Test
     public void whenItemIsDisplayed_thenItemShouldExistInInventory() {
-        HomePage homePage = openHomePage();
-        homePage.login(testsMapping.username, testsMapping.password);
-
-        InventoryPage inventoryPage = new InventoryPage();
+        InventoryPage inventoryPage = openInventoryPage();
         assertThat(inventoryPage.isItemDisplayed(testsMapping.item)).isTrue();
     }
 
     @Test
     public void whenItemIsAddedToCart_thenButtonShouldDisplayRemove() {
-        HomePage homePage = openHomePage();
-        homePage.login(testsMapping.username, testsMapping.password);
-
-        InventoryPage inventoryPage = new InventoryPage();
+        InventoryPage inventoryPage = openInventoryPage();
         inventoryPage.addToCart(testsMapping.item);
 
         assertThat(inventoryPage.buttonIs(testsMapping.item, "Remove")).isTrue();
@@ -57,10 +58,7 @@ public class InventoryPageTest {
 
     @Test
     public void whenIsClickedToRemove_thenShouldBeButtonToAdd() {
-        HomePage homePage = openHomePage();
-        homePage.login(testsMapping.username, testsMapping.password);
-
-        InventoryPage inventoryPage = new InventoryPage();
+        InventoryPage inventoryPage = openInventoryPage();
         inventoryPage.addToCart(testsMapping.item);
         inventoryPage.removeFromCart(testsMapping.item);
 
@@ -69,10 +67,7 @@ public class InventoryPageTest {
 
     @Test
     public void whenIsClickedToRemove_thenCartShouldNotContainItem() {
-        HomePage homePage = openHomePage();
-        homePage.login(testsMapping.username, testsMapping.password);
-
-        InventoryPage inventoryPage = new InventoryPage();
+        InventoryPage inventoryPage = openInventoryPage();
         inventoryPage.addToCart(testsMapping.item);
         inventoryPage.removeFromCart(testsMapping.item);
 
@@ -86,10 +81,7 @@ public class InventoryPageTest {
 
     @Test
     public void whenTheItemNameIsClicked_thenOpensPageWithItem() {
-        HomePage homePage = openHomePage();
-        homePage.login(testsMapping.username, testsMapping.password);
-
-        InventoryPage inventoryPage = new InventoryPage();
+        InventoryPage inventoryPage = openInventoryPage();
         inventoryPage.openItem(testsMapping.item);
 
         ItemPage itemPage = new ItemPage();

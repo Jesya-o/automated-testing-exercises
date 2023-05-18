@@ -10,8 +10,9 @@ public class TestHelper {
         return new HomePage();
     }
 
-    public static void openInventoryPage() {
+    public static InventoryPage openInventoryPage() {
         HomePage homePage = openHomePage();
         homePage.login(testsMapping.username, testsMapping.password);
+        return new InventoryPage();
     }
 }

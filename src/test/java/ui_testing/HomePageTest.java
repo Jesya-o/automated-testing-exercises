@@ -4,10 +4,10 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import ui_testing.config.testsMapping;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ui_testing.TestHelper.openHomePage;
+import static ui_testing.TestHelper.openInventoryPage;
 
 public class HomePageTest {
 
@@ -23,11 +23,8 @@ public class HomePageTest {
 
     @Test
     public void whenLoginWithValidCredentials_thenUserShouldBeLoggedIn() {
-        HomePage homePage = openHomePage();
+        InventoryPage inventoryPage = openInventoryPage();
 
-        homePage.login(testsMapping.username, testsMapping.password);
-
-        InventoryPage inventoryPage = new InventoryPage();
         assertThat(inventoryPage.isPageOpened()).isTrue();
     }
 
