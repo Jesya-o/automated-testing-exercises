@@ -1,0 +1,29 @@
+package ui_testing;
+
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
+
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
+
+public class InventoryPage {
+
+    public boolean isPageOpened() {
+        return $("#inventory_container").exists();
+    }
+
+    public SelenideElement getItemByName(String itemName) {
+        return $$(".inventory_item_name").find(Condition.text(itemName));
+    }
+
+    public boolean isItemDisplayed(String itemName) {
+        return $$(".inventory_item_name").findBy(Condition.text(itemName)).exists();
+    }
+
+    public void addToCart(String itemName) {
+        getItemByName(itemName)
+                .closest(".inventory_item")
+                .find(".btn_inventory")
+                .click();
+    }
+}
