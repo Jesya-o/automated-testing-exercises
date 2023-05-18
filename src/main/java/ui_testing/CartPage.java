@@ -32,4 +32,8 @@ public class CartPage {
                 .find(".btn_secondary.cart_button")
                 .click();
     }
+
+    public void continueShopping() {
+        $("#continue-shopping").click();
+    }
 }

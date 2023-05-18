@@ -25,6 +25,24 @@ public class CartPageTest {
         }
     }
 
+    @Test
+    public void whenContinueShoppingClicked_thenInventoryPageShouldOpen() {
+        HomePage homePage = openHomePage();
+        homePage.login("standard_user", "secret_sauce");
+
+        InventoryPage inventoryPage = new InventoryPage();
+        inventoryPage.addToCart("Sauce Labs Backpack");
+
+        CartPage cartPage = new CartPage();
+        cartPage.open();
+
+        assertThat(cartPage.isPageOpened()).isTrue();
+        cartPage.continueShopping();
+
+        assertThat(inventoryPage.isPageOpened()).isTrue();
+    }
+
+
     private HomePage openHomePage() {
         open("https://www.saucedemo.com");
         return new HomePage();
