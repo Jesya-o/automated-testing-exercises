@@ -39,6 +39,21 @@ public class CartPageTest {
         assertThat(inventoryPage.isPageOpened()).isTrue();
     }
 
+    @Test
+    public void whenCheckoutClicked_thenInventoryPageShouldOpen() {
+        InventoryPage inventoryPage = openInventoryPage();
+        inventoryPage.addToCart(testsMapping.item);
+
+        CartPage cartPage = new CartPage();
+        cartPage.open();
+
+        assertThat(cartPage.isPageOpened()).isTrue();
+        cartPage.checkout();
+
+        CheckoutPage checkoutPage = new CheckoutPage();
+        assertThat(checkoutPage.isPageOpened()).isTrue();
+    }
+
     @AfterEach
     public void clearAllAndCloseWindow() {
         Selenide.clearBrowserCookies();

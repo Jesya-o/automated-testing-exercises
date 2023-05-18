@@ -36,4 +36,9 @@ public class CartPage {
     public void continueShopping() {
         $("#continue-shopping").click();
     }
+
+    public void checkout() {
+        $("#checkout").click();
+    }
+
 }
