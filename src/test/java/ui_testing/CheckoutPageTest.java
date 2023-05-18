@@ -1,6 +1,9 @@
 package ui_testing;
 
+import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import ui_testing.config.testsMapping;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ui_testing.TestHelper.openInventoryPage;
@@ -38,6 +41,74 @@ public class CheckoutPageTest {
         checkoutPage.clickContinue();
 
         assertThat(checkoutPage.isErrorMessageDisplayed()).isTrue();
+    }
+
+    @Test
+    public void whenTheItemNameIsClicked_thenOpensPageWithItem() {
+        InventoryPage inventoryPage = openInventoryPage();
+
+        inventoryPage.addToCart(testsMapping.item);
+        inventoryPage.addToCart("Sauce Labs Onesie");
+
+        CheckoutPage checkoutPage = checkout();
+        checkoutPage.goToCheckoutOverview();
+
+        checkoutPage.openItem(testsMapping.item);
+
+        ItemPage itemPage = new ItemPage();
+        assertThat(itemPage.isPageOpened()).isTrue();
+    }
+
+    @Test
+    public void whenCancelIsClicked_thenOpensCartPage() {
+        InventoryPage inventoryPage = openInventoryPage();
+
+        inventoryPage.addToCart(testsMapping.item);
+        inventoryPage.addToCart("Sauce Labs Onesie");
+
+        CheckoutPage checkoutPage = checkout();
+
+        checkoutPage.cancel();
+
+        CartPage cartPage = new CartPage();
+        assertThat(cartPage.isPageOpened()).isTrue();
+    }
+
+    @Test
+    public void whenCancelOnOverviewIsClicked_thenOpensInventoryPage() {
+        InventoryPage inventoryPage = openInventoryPage();
+
+        inventoryPage.addToCart(testsMapping.item);
+        inventoryPage.addToCart("Sauce Labs Onesie");
+
+        CheckoutPage checkoutPage = checkout();
+        checkoutPage.goToCheckoutOverview();
+
+        checkoutPage.cancel();
+
+        assertThat(inventoryPage.isPageOpened()).isTrue();
+    }
+
+    @Test
+    public void whenFinishIsClicked_thenOpensInventoryPage() {
+        InventoryPage inventoryPage = openInventoryPage();
+
+        inventoryPage.addToCart(testsMapping.item);
+        inventoryPage.addToCart("Sauce Labs Onesie");
+
+        CheckoutPage checkoutPage = checkout();
+        checkoutPage.goToCheckoutOverview();
+
+        checkoutPage.finish();
+
+        assertThat(checkoutPage.isComplete()).isTrue();
+    }
+
+    @AfterEach
+    public void clearAllAndCloseWindow() {
+        Selenide.clearBrowserCookies();
+        Selenide.clearBrowserLocalStorage();
+        Selenide.closeWindow();
     }
 
     private CheckoutPage checkout() {
