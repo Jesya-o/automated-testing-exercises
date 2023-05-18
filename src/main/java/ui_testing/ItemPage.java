@@ -12,38 +12,39 @@ public class ItemPage {
         return $("#inventory_item_container").exists();
     }
 
+    public void backToProducts() {
+        $("#back-to-products").click();
+    }
+
     public SelenideElement getItemByName(String itemName) {
-        return $$(".inventory_item_name").find(Condition.text(itemName));
+        return $$(".inventory_details_name").find(Condition.text(itemName));
     }
 
     public boolean isItemDisplayed(String itemName) {
-        return $$(".inventory_item_name").findBy(Condition.text(itemName)).exists();
+        return $$(".inventory_details_name")
+                .findBy(Condition.text(itemName))
+                .exists();
     }
 
     public void addToCart(String itemName) {
         getItemByName(itemName)
-                .closest(".inventory_item")
+                .closest(".inventory_item_container")
                 .find(".btn_inventory")
                 .click();
     }
 
     public void removeFromCart(String itemName) {
         getItemByName(itemName)
-                .closest(".inventory_item")
-                .find(".btn_secondary")
+                .closest(".inventory_item_container")
+                .find(".btn_inventory")
                 .click();
     }
 
     public boolean buttonIs(String itemName, String state) {
         SelenideElement button = getItemByName(itemName)
-                .closest(".inventory_item")
+                .closest(".inventory_item_container")
                 .find(".btn_inventory");
 
         return state.equalsIgnoreCase(button.text());
-    }
-
-    public void openItem(String itemName) {
-        getItemByName(itemName)
-                .click();
     }
 }
