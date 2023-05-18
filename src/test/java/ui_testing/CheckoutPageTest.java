@@ -90,7 +90,7 @@ public class CheckoutPageTest {
     }
 
     @Test
-    public void whenFinishIsClicked_thenOpensInventoryPage() {
+    public void whenFinishIsClicked_thenOpensCompletedPage() {
         InventoryPage inventoryPage = openInventoryPage();
 
         inventoryPage.addToCart(testsMapping.item);
@@ -102,6 +102,23 @@ public class CheckoutPageTest {
         checkoutPage.finish();
 
         assertThat(checkoutPage.isComplete()).isTrue();
+    }
+
+    @Test
+    public void whenBackHomeIsClicked_thenOpensInventoryPage() {
+        InventoryPage inventoryPage = openInventoryPage();
+
+        inventoryPage.addToCart(testsMapping.item);
+        inventoryPage.addToCart("Sauce Labs Onesie");
+
+        CheckoutPage checkoutPage = checkout();
+        checkoutPage.goToCheckoutOverview();
+
+        checkoutPage.finish();
+
+        checkoutPage.backHome();
+
+        assertThat(inventoryPage.isPageOpened()).isTrue();
     }
 
     @AfterEach

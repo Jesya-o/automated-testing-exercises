@@ -64,6 +64,10 @@ public class CheckoutPage {
         return $("#checkout_complete_container").isDisplayed();
     }
 
+    public void backHome() {
+        $("#back-to-products").click();
+    }
+
     private SelenideElement getItemByName(String itemName) {
         return $$(".inventory_item_name").find(Condition.text(itemName));
     }
