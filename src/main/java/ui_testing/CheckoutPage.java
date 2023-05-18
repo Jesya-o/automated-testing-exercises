@@ -68,6 +68,30 @@ public class CheckoutPage {
         $("#back-to-products").click();
     }
 
+    public boolean isCheckoutAmountSame(double totalOnCartPage) {
+        double totalOnCheckoutPage = calculateTotalAmountOnCheckoutPage();
+
+        return totalOnCartPage == totalOnCheckoutPage;
+    }
+
+    public boolean isTotalAmountCorrect() {
+        String subtotalText = $("#checkout_summary_container .summary_subtotal_label").getText().replaceAll("[^\\d.]", "");
+        double subtotal = Double.parseDouble(subtotalText);
+
+        String taxText = $("#checkout_summary_container .summary_tax_label").getText().replaceAll("[^\\d.]", "");
+        double tax = Double.parseDouble(taxText);
+
+        String totalText = $("#checkout_summary_container .summary_total_label").getText().replaceAll("[^\\d.]", "");
+        double total = Double.parseDouble(totalText);
+
+        return subtotal + tax == total;
+    }
+
+    private double calculateTotalAmountOnCheckoutPage() {
+        String subtotalText = $("#checkout_summary_container .summary_subtotal_label").getText().replaceAll("[^\\d.]", "");
+        return Double.parseDouble(subtotalText);
+    }
+
     private SelenideElement getItemByName(String itemName) {
         return $$(".inventory_item_name").find(Condition.text(itemName));
     }

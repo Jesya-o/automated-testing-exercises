@@ -121,6 +121,47 @@ public class CheckoutPageTest {
         assertThat(inventoryPage.isPageOpened()).isTrue();
     }
 
+    @Test
+    public void whenValidInformationSubmitted_thenTotalAmountShouldBeSameOnCartAndOnCheckout() {
+        InventoryPage inventoryPage = openInventoryPage();
+
+        inventoryPage.addToCart("Sauce Labs Backpack");
+        inventoryPage.addToCart("Sauce Labs Bolt T-Shirt");
+
+        CartPage cartPage = new CartPage();
+        cartPage.open();
+
+        double totalOnCartPage = cartPage.getTotalAmount();
+
+        CheckoutPage checkoutPage = checkout();
+
+        checkoutPage.enterFirstName("John");
+        checkoutPage.enterLastName("Doe");
+        checkoutPage.enterZipCode("12345");
+        checkoutPage.clickContinue();
+
+        assertThat(checkoutPage.isCheckoutAmountSame(totalOnCartPage)).isTrue();
+    }
+
+    @Test
+    public void whenValidInformationSubmitted_thenTaxShouldBeCalculatedRight() {
+        InventoryPage inventoryPage = openInventoryPage();
+
+        inventoryPage.addToCart("Sauce Labs Backpack");
+        inventoryPage.addToCart("Sauce Labs Bolt T-Shirt");
+
+        CartPage cartPage = new CartPage();
+        cartPage.open();
+        CheckoutPage checkoutPage = checkout();
+
+        checkoutPage.enterFirstName("John");
+        checkoutPage.enterLastName("Doe");
+        checkoutPage.enterZipCode("12345");
+        checkoutPage.clickContinue();
+
+        assertThat(checkoutPage.isTotalAmountCorrect()).isTrue();
+    }
+
     @AfterEach
     public void clearAllAndCloseWindow() {
         Selenide.clearBrowserCookies();

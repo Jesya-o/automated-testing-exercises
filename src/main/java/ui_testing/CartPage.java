@@ -16,10 +16,6 @@ public class CartPage {
         return $("#cart_contents_container").exists();
     }
 
-    public ElementsCollection getCartItems() {
-        return $$(".cart_item");
-    }
-
     public boolean isItemDisplayed(String itemName) {
         return $$(".cart_item")
                 .findBy(Condition.text(itemName))
@@ -39,6 +35,19 @@ public class CartPage {
 
     public void checkout() {
         $("#checkout").click();
+    }
+
+    public double getTotalAmount() {
+        ElementsCollection itemPrices = $$(".cart_item .inventory_item_price");
+        double total = 0.0;
+
+        for (com.codeborne.selenide.SelenideElement itemPrice : itemPrices) {
+            String priceText = itemPrice.getText().replaceAll("[^\\d.]", "");
+            double price = Double.parseDouble(priceText);
+            total += price;
+        }
+
+        return total;
     }
 
 }
