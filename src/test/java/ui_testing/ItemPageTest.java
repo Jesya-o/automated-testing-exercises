@@ -1,10 +1,12 @@
 package ui_testing;
 
+import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import ui_testing.config.testsMapping;
 
-import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
+import static ui_testing.TestHelper.openHomePage;
 
 public class ItemPageTest {
 
@@ -87,8 +89,10 @@ public class ItemPageTest {
         inventoryPage.openItem(testsMapping.item);
     }
 
-    private HomePage openHomePage() {
-        open("https://www.saucedemo.com");
-        return new HomePage();
+    @AfterEach
+    public void clearAllAndCloseWindow() {
+        Selenide.clearBrowserCookies();
+        Selenide.clearBrowserLocalStorage();
+        Selenide.closeWindow();
     }
 }

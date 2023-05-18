@@ -1,37 +1,40 @@
 package ui_testing;
 
+import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import ui_testing.config.testsMapping;
 
-import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
+import static ui_testing.TestHelper.openHomePage;
 
 public class CartPageTest {
 
     @Test
     public void whenItemIsRemovedFromCart_thenCartShouldNotContainItem() {
         HomePage homePage = openHomePage();
-        homePage.login("standard_user", "secret_sauce");
+        homePage.login(testsMapping.username, testsMapping.password);
 
         InventoryPage inventoryPage = new InventoryPage();
-        inventoryPage.addToCart("Sauce Labs Backpack");
+        inventoryPage.addToCart(testsMapping.item);
 
         CartPage cartPage = new CartPage();
         cartPage.open();
         assertThat(cartPage.isPageOpened()).isTrue();
         if (cartPage.isPageOpened()) {
-            assertThat(cartPage.isItemDisplayed("Sauce Labs Backpack")).isTrue();
-            cartPage.removeItem("Sauce Labs Backpack");
-            assertThat(cartPage.isItemDisplayed("Sauce Labs Backpack")).isFalse();
+            assertThat(cartPage.isItemDisplayed(testsMapping.item)).isTrue();
+            cartPage.removeItem(testsMapping.item);
+            assertThat(cartPage.isItemDisplayed(testsMapping.item)).isFalse();
         }
     }
 
     @Test
     public void whenContinueShoppingClicked_thenInventoryPageShouldOpen() {
         HomePage homePage = openHomePage();
-        homePage.login("standard_user", "secret_sauce");
+        homePage.login(testsMapping.username, testsMapping.password);
 
         InventoryPage inventoryPage = new InventoryPage();
-        inventoryPage.addToCart("Sauce Labs Backpack");
+        inventoryPage.addToCart(testsMapping.item);
 
         CartPage cartPage = new CartPage();
         cartPage.open();
@@ -42,9 +45,10 @@ public class CartPageTest {
         assertThat(inventoryPage.isPageOpened()).isTrue();
     }
 
-
-    private HomePage openHomePage() {
-        open("https://www.saucedemo.com");
-        return new HomePage();
+    @AfterEach
+    public void clearAllAndCloseWindow() {
+        Selenide.clearBrowserCookies();
+        Selenide.clearBrowserLocalStorage();
+        Selenide.closeWindow();
     }
 }

@@ -1,10 +1,15 @@
 package ui_testing;
 
+import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selectors.byLinkText;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.switchTo;
 import static org.assertj.core.api.Assertions.assertThat;
+import static ui_testing.TestHelper.openHomePage;
+import static ui_testing.TestHelper.openInventoryPage;
 
 public class FooterTest {
 
@@ -53,13 +58,10 @@ public class FooterTest {
         assertThat(switchTo().window(0).getTitle()).isEqualTo(currentTab);
     }
 
-    private HomePage openHomePage() {
-        open("https://www.saucedemo.com");
-        return new HomePage();
-    }
-
-    private void openInventoryPage() {
-        HomePage homePage = openHomePage();
-        homePage.login("standard_user", "secret_sauce");
+    @AfterEach
+    public void clearAllAndCloseWindow() {
+        Selenide.clearBrowserCookies();
+        Selenide.clearBrowserLocalStorage();
+        Selenide.closeWindow();
     }
 }

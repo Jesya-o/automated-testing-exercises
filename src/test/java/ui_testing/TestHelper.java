@@ -1,5 +1,7 @@
 package ui_testing;
 
+import ui_testing.config.testsMapping;
+
 import static com.codeborne.selenide.Selenide.open;
 
 public class TestHelper {
@@ -8,4 +10,8 @@ public class TestHelper {
         return new HomePage();
     }
 
+    public static void openInventoryPage() {
+        HomePage homePage = openHomePage();
+        homePage.login(testsMapping.username, testsMapping.password);
+    }
 }

@@ -1,6 +1,8 @@
 package ui_testing;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import ui_testing.config.testsMapping;
 
@@ -36,5 +38,12 @@ public class HomePageTest {
         homePage.login("invalid_username", "invalid_password");
 
         homePage.getLoginErrorMessage().should(Condition.visible);
+    }
+
+    @AfterEach
+    public void clearAllAndCloseWindow() {
+        Selenide.clearBrowserCookies();
+        Selenide.clearBrowserLocalStorage();
+        Selenide.closeWindow();
     }
 }
