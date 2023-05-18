@@ -2,9 +2,10 @@ package ui_testing;
 
 import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.Test;
+import ui_testing.config.testsMapping;
 
-import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
+import static ui_testing.TestHelper.openHomePage;
 
 public class HomePageTest {
 
@@ -22,9 +23,8 @@ public class HomePageTest {
     public void whenLoginWithValidCredentials_thenUserShouldBeLoggedIn() {
         HomePage homePage = openHomePage();
 
-        homePage.login("standard_user", "secret_sauce");
+        homePage.login(testsMapping.username, testsMapping.password);
 
-        // Assert that the user is logged in by verifying the presence of an element on the next page
         InventoryPage inventoryPage = new InventoryPage();
         assertThat(inventoryPage.isPageOpened()).isTrue();
     }
@@ -35,12 +35,6 @@ public class HomePageTest {
 
         homePage.login("invalid_username", "invalid_password");
 
-        // Assert that an error message is displayed on the login page
         homePage.getLoginErrorMessage().should(Condition.visible);
-    }
-
-    private HomePage openHomePage() {
-        open("https://www.saucedemo.com");
-        return new HomePage();
     }
 }

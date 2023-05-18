@@ -1,6 +1,7 @@
 package ui_testing;
 
 import org.junit.jupiter.api.Test;
+import ui_testing.config.testsMapping;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +24,7 @@ public class ItemPageTest {
         ItemPage itemPage = new ItemPage();
         openItemPage();
 
-        assertThat(itemPage.isItemDisplayed("Sauce Labs Backpack")).isTrue();
+        assertThat(itemPage.isItemDisplayed(testsMapping.item)).isTrue();
     }
 
     @Test
@@ -31,13 +32,13 @@ public class ItemPageTest {
         ItemPage itemPage = new ItemPage();
         openItemPage();
 
-        itemPage.addToCart("Sauce Labs Backpack");
+        itemPage.addToCart(testsMapping.item);
 
         CartPage cartPage = new CartPage();
         cartPage.open();
         assertThat(cartPage.isPageOpened()).isTrue();
         if (cartPage.isPageOpened()) {
-            assertThat(cartPage.isItemDisplayed("Sauce Labs Backpack")).isTrue();
+            assertThat(cartPage.isItemDisplayed(testsMapping.item)).isTrue();
         }
     }
 
@@ -46,9 +47,9 @@ public class ItemPageTest {
         ItemPage itemPage = new ItemPage();
         openItemPage();
 
-        itemPage.addToCart("Sauce Labs Backpack");
+        itemPage.addToCart(testsMapping.item);
 
-        assertThat(itemPage.buttonIs("Sauce Labs Backpack", "Remove")).isTrue();
+        assertThat(itemPage.buttonIs(testsMapping.item, "Remove")).isTrue();
     }
 
     @Test
@@ -56,10 +57,10 @@ public class ItemPageTest {
         ItemPage itemPage = new ItemPage();
         openItemPage();
 
-        itemPage.addToCart("Sauce Labs Backpack");
-        itemPage.removeFromCart("Sauce Labs Backpack");
+        itemPage.addToCart(testsMapping.item);
+        itemPage.removeFromCart(testsMapping.item);
 
-        assertThat(itemPage.buttonIs("Sauce Labs Backpack", "Add to cart")).isTrue();
+        assertThat(itemPage.buttonIs(testsMapping.item, "Add to cart")).isTrue();
     }
 
     @Test
@@ -67,23 +68,23 @@ public class ItemPageTest {
         ItemPage itemPage = new ItemPage();
         openItemPage();
 
-        itemPage.addToCart("Sauce Labs Backpack");
-        itemPage.removeFromCart("Sauce Labs Backpack");
+        itemPage.addToCart(testsMapping.item);
+        itemPage.removeFromCart(testsMapping.item);
 
         CartPage cartPage = new CartPage();
         cartPage.open();
         assertThat(cartPage.isPageOpened()).isTrue();
         if (cartPage.isPageOpened()) {
-            assertThat(cartPage.isItemDisplayed("Sauce Labs Backpack")).isFalse();
+            assertThat(cartPage.isItemDisplayed(testsMapping.item)).isFalse();
         }
     }
 
     private void openItemPage() {
         HomePage homePage = openHomePage();
-        homePage.login("standard_user", "secret_sauce");
+        homePage.login(testsMapping.username, testsMapping.password);
 
         InventoryPage inventoryPage = new InventoryPage();
-        inventoryPage.openItem("Sauce Labs Backpack");
+        inventoryPage.openItem(testsMapping.item);
     }
 
     private HomePage openHomePage() {
